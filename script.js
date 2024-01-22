@@ -61,6 +61,10 @@ const playersData = [];
 if (getFromLocalStorage("players")) {
   playersData.push(...JSON.parse(getFromLocalStorage("players")));
   createListOfPlayers(playersData, listOfPlayers);
+  if (playersData.length > 31) {
+    addPlayerBtn.disabled = true;
+    inputForm.disabled = true;
+  }
 }
 
 gameForm.addEventListener("submit", (e) => {
@@ -68,8 +72,13 @@ gameForm.addEventListener("submit", (e) => {
 });
 
 addPlayerBtn.addEventListener("click", () => {
-  if (playersData.length === 31) {
+  if (playersData.length > 31) {
+    alert(
+      `Cannot add ${inputForm.value} you have reached the maximum number of players`
+    );
     addPlayerBtn.disabled = true;
+    inputForm.disabled = true;
+    inputForm.value = "";
   } else if (inputForm.value) {
     playersData.push(inputForm.value);
     saveToLocalStorage("players", playersData);
