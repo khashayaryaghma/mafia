@@ -49,6 +49,8 @@ const createListOfPlayers = (data, appendElement) => {
       "mb-3",
       "px-3",
       "py-1",
+      "d-flex",
+      "justify-content-between"
     ]);
     const deleteBtn = createElement("button", "X", [
       "delete-btn",
