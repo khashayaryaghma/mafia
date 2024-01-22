@@ -129,7 +129,9 @@ addPlayerBtn.addEventListener("click", () => {
   createListOfPlayers(playersData, listOfPlayers);
 });
 
-nextBtn.addEventListener("click", () => {});
+nextBtn.addEventListener("click", () => {
+  window.location.href = "./1-roles.html";
+});
 
 export {
   createElement,
