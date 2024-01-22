@@ -1,5 +1,7 @@
 .player-list{
-    display: flex;
-    justify-content: space-between;
     width: 20rem;
+}
+body{
+    background: url(./mafia.jpg);
+    background-size: cover;
 }
