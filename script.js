@@ -19,7 +19,7 @@ const getFromLocalStorage = (key) => {
 };
 
 const handleDeleteBtn = (e) => {
-  const li = e.target.parentElement;
+  const li = e.target.parentElement.parentElement;
   const index = li.id;
   playersData.splice(index, 1);
   saveToLocalStorage("players", playersData);
@@ -27,7 +27,7 @@ const handleDeleteBtn = (e) => {
 };
 
 const handleEditBtn = (e) => {
-  const li = e.target.parentElement;
+  const li = e.target.parentElement.parentElement;
   const index = li.id;
   const player = playersData[index];
   inputForm.value = player;
@@ -38,14 +38,15 @@ const handleEditBtn = (e) => {
 
 const createListOfPlayers = (data, appendElement) => {
   data.forEach((player, index) => {
-    const li = createElement("li", player, ["player-list"]);
-    const deleteBtn = createElement("button", "X", ["delete-btn", "btn"]);
+    const li = createElement("li", player, ["player-list","rounded","shadow-sm","d-flex","align-items-center","mb-3","px-3","py-1"]);
+    const deleteBtn = createElement("button", "X", ["delete-btn", "btn","btn-danger"]);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    const editBtn = createElement("button", "Edit", ["edit-btn", "btn"]);
+    const editBtn = createElement("button", "Edit", ["edit-btn", "btn","btn-warning","m-1"]);
     editBtn.addEventListener("click", handleEditBtn);
     li.id = index;
-    li.append(deleteBtn);
-    li.append(editBtn);
+    const div = createElement("div", "", []);
+    div.append(editBtn, deleteBtn)
+    li.append(div);
     appendElement.append(li);
   });
 };
