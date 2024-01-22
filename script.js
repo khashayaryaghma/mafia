@@ -39,9 +39,9 @@ const handleEditBtn = (e) => {
 const createListOfPlayers = (data, appendElement) => {
   data.forEach((player, index) => {
     const li = createElement("li", player, ["player-list"]);
-    const deleteBtn = createElement("button", "X", ["delete-btn"]);
+    const deleteBtn = createElement("button", "X", ["delete-btn", "btn"]);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    const editBtn = createElement("button", "Edit", ["edit-btn"]);
+    const editBtn = createElement("button", "Edit", ["edit-btn", "btn"]);
     editBtn.addEventListener("click", handleEditBtn);
     li.id = index;
     li.append(deleteBtn);
@@ -54,7 +54,7 @@ const gameForm = selectedElement(".game-form");
 const inputForm = selectedElement(".input-form");
 const addPlayerBtn = selectedElement(".add-player-btn");
 const listOfPlayers = selectedElement(".list-of-players");
-// const nextBtn
+const nextBtn = selectedElement(".next-btn");
 
 const playersData = [];
 if (getFromLocalStorage("players")) {
@@ -67,10 +67,14 @@ gameForm.addEventListener("submit", (e) => {
 });
 
 addPlayerBtn.addEventListener("click", () => {
-  if (inputForm.value) {
+  if (playersData.length === 31) {
+    addPlayerBtn.disabled = true;
+  } else if (inputForm.value) {
     playersData.push(inputForm.value);
     saveToLocalStorage("players", playersData);
     inputForm.value = "";
+    if (playersData.length >= 10) {
+    }
   } else {
     alert("Please enter a player name");
   }
