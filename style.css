@@ -1,5 +1,5 @@
 .player-list{
     display: flex;
     justify-content: space-between;
-    background-color: aqua;
+    width: 20rem;
 }
