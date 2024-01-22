@@ -26,9 +26,18 @@ const handleDeleteBtn = (e) => {
   li.remove();
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
+  if (playersData.length < 32) {
+    addPlayerBtn.disabled = false;
+    inputForm.disabled = false;
+  }
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
 };
 
 const handleEditBtn = (e) => {
+  addPlayerBtn.disabled = false;
+  inputForm.disabled = false;
   const li = e.target.parentElement.parentElement;
   const index = li.id;
   const player = playersData[index];
@@ -36,6 +45,9 @@ const handleEditBtn = (e) => {
   playersData.splice(index, 1);
   saveToLocalStorage("players", playersData);
   li.remove();
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
 };
 
 const createListOfPlayers = (data, appendElement) => {
@@ -85,6 +97,9 @@ if (getFromLocalStorage("players")) {
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
   }
+  if (playersData.length >= 10) {
+    nextBtn.disabled = false;
+  }
 }
 
 gameForm.addEventListener("submit", (e) => {
@@ -94,7 +109,7 @@ gameForm.addEventListener("submit", (e) => {
 addPlayerBtn.addEventListener("click", () => {
   if (playersData.length > 31) {
     alert(
-      `Cannot add ${inputForm.value} you have reached the maximum number of players`
+      `Cannot add "${inputForm.value}" you have reached the maximum number of players`
     );
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
@@ -104,6 +119,7 @@ addPlayerBtn.addEventListener("click", () => {
     saveToLocalStorage("players", playersData);
     inputForm.value = "";
     if (playersData.length >= 10) {
+      nextBtn.disabled = false;
     }
   } else {
     alert("Please enter a player name");
@@ -112,3 +128,12 @@ addPlayerBtn.addEventListener("click", () => {
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
 });
+
+nextBtn.addEventListener("click", () => {});
+
+export {
+  createElement,
+  selectedElement,
+  saveToLocalStorage,
+  getFromLocalStorage,
+};
