@@ -32,18 +32,8 @@ const handleEditBtn = (e) => {
   const player = playersData[index];
   inputForm.value = player;
   playersData.splice(index, 1);
-
-  //   saveToLocalStorage("players", playersData);
-  //   li.remove();
-  //   listOfPlayers.innerText = "";
-  //   playersData.forEach((player, index) => {
-  //     const li = createElement("li", player, ["player-list"]);
-  //     const deleteBtn = createElement("button", "X", ["delete-btn"]);
-  //     deleteBtn.addEventListener("click", handleDeleteBtn);
-  //     const editBtn = createElement("button", "Edit", ["edit-btn"]);
-  //     li.id = index;
-  //     listOfPlayers.append(li);
-  //   });
+  saveToLocalStorage("players", playersData);
+  li.remove();
 };
 
 const createListOfPlayers = (data, appendElement) => {
@@ -64,6 +54,7 @@ const gameForm = selectedElement(".game-form");
 const inputForm = selectedElement(".input-form");
 const addPlayerBtn = selectedElement(".add-player-btn");
 const listOfPlayers = selectedElement(".list-of-players");
+// const nextBtn
 
 const playersData = [];
 if (getFromLocalStorage("players")) {
@@ -85,13 +76,5 @@ addPlayerBtn.addEventListener("click", () => {
   }
 
   listOfPlayers.innerText = "";
-  //   playersData.forEach((player, index) => {
-  //     const li = createElement("li", player, ["player-list"]);
-  //     const deleteBtn = createElement("button", "X", ["delete-btn"]);
-  //     deleteBtn.addEventListener("click", handleDeleteBtn);
-  //     const editBtn = createElement("button", "Edit", ["edit-btn"]);
-  //     li.id = index;
-  //     listOfPlayers.append(li);
-  //   });
   createListOfPlayers(playersData, listOfPlayers);
 });
