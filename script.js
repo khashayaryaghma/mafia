@@ -50,20 +50,14 @@ const createListOfPlayers = (data, appendElement) => {
       "px-3",
       "py-1",
       "d-flex",
-      "justify-content-between"
+      "justify-content-between",
+      "bg-secondary",
+      "text-white",
+      "bg-gradient"
     ]);
-    const deleteBtn = createElement("button", "X", [
-      "delete-btn",
-      "btn",
-      "btn-danger",
-    ]);
+    const deleteBtn = createElement("button", "X", ["delete-btn", "btn", "btn-danger"]);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    const editBtn = createElement("button", "Edit", [
-      "edit-btn",
-      "btn",
-      "btn-warning",
-      "m-1",
-    ]);
+    const editBtn = createElement("button", "Edit", ["edit-btn", "btn", "btn-warning", "m-1"]);
     editBtn.addEventListener("click", handleEditBtn);
     li.id = index;
     const div = createElement("div", "", []);
@@ -95,9 +89,7 @@ gameForm.addEventListener("submit", (e) => {
 
 addPlayerBtn.addEventListener("click", () => {
   if (playersData.length > 31) {
-    alert(
-      `Cannot add ${inputForm.value} you have reached the maximum number of players`
-    );
+    alert(`Cannot add ${inputForm.value} you have reached the maximum number of players`);
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
     inputForm.value = "";
