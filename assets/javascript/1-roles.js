@@ -42,13 +42,15 @@ const mafiaRolesData = [
 const additionalRolesData = ["Killer", "Joker"];
 const allRoles = [];
 const playersData = [];
-const selectedRoles = {
+const selectedRoles = getFromLocalStorage("roles") || {
   citizen: [],
   mafia: [],
   additional: [],
 };
+const nextBtn = selectedElement(".next-btn");
+const gameRoles = selectedElement(".game-roles");
 if (getFromLocalStorage("players")) {
-  playersData.push(...JSON.parse(getFromLocalStorage("players")));
+  playersData.push(...getFromLocalStorage("players"));
 }
 citizenRolesData.forEach((role) => {
   allRoles.push({ citizen: role });
@@ -61,18 +63,66 @@ additionalRolesData.forEach((role) => {
 });
 
 const handleBtnRole = (e) => {
-  if (e.target.classList.contains("btn-outline-light")) {
-    e.target.classList.replace("btn-outline-light", "btn-light");
-    selectedRoles.citizen.push(e.target.textContent);
-  } else if (e.target.classList.contains("btn-outline-danger")) {
-    e.target.classList.replace("btn-outline-danger", "btn-danger");
-    selectedRoles.citizen.push(e.target.textContent);
+  const sumOfSelectedRoles =
+    selectedRoles.citizen.length +
+    selectedRoles.mafia.length +
+    selectedRoles.additional.length;
+  if (
+    sumOfSelectedRoles < playersData.length ||
+    e.target.classList.contains("btn-light") ||
+    e.target.classList.contains("btn-danger") ||
+    e.target.classList.contains("btn-warning")
+  ) {
+    if (e.target.classList.contains("btn-outline-light")) {
+      e.target.classList.replace("btn-outline-light", "btn-light");
+      selectedRoles.citizen.push(e.target.textContent);
+    } else if (e.target.classList.contains("btn-outline-danger")) {
+      e.target.classList.replace("btn-outline-danger", "btn-danger");
+      selectedRoles.mafia.push(e.target.textContent);
+    } else if (e.target.classList.contains("btn-outline-warning")) {
+      if (15 <= playersData.length) {
+        e.target.classList.replace("btn-outline-warning", "btn-warning");
+        selectedRoles.additional.push(e.target.textContent);
+      } else {
+        alert(
+          "To select these roles, the number of players must be 15 or more"
+        );
+      }
+    } else if (e.target.classList.contains("btn-light")) {
+      e.target.classList.replace("btn-light", "btn-outline-light");
+      selectedRoles.citizen.forEach((role, index) => {
+        if (role === e.target.textContent) {
+          selectedRoles.citizen.splice(index, 1);
+        }
+      });
+    } else if (e.target.classList.contains("btn-danger")) {
+      e.target.classList.replace("btn-danger", "btn-outline-danger");
+      selectedRoles.mafia.forEach((role, index) => {
+        if (role === e.target.textContent) {
+          selectedRoles.mafia.splice(index, 1);
+        }
+      });
+    } else if (e.target.classList.contains("btn-warning")) {
+      e.target.classList.replace("btn-warning", "btn-outline-warning");
+      selectedRoles.additional.forEach((role, index) => {
+        if (role === e.target.textContent) {
+          selectedRoles.additional.splice(index, 1);
+        }
+      });
+    }
+    saveToLocalStorage("roles", selectedRoles);
+    const sumOfSelectedRoles =
+      selectedRoles.citizen.length +
+      selectedRoles.mafia.length +
+      selectedRoles.additional.length;
+    if (sumOfSelectedRoles == playersData.length) {
+      nextBtn.disabled = false;
+    }
   } else {
-    e.target.classList.replace("btn-outline-warning", "btn-warning");
-    selectedRoles.citizen.push(e.target.textContent);
+    alert("You have reached the maximum number of role selections");
   }
 };
-const gameRoles = selectedElement(".game-roles");
+
 allRoles.forEach((role) => {
   const content = Object.values(role);
   let className = "";
@@ -87,6 +137,11 @@ allRoles.forEach((role) => {
   roleBtn.addEventListener("click", handleBtnRole);
   gameRoles.append(roleBtn);
 });
+
+nextBtn.addEventListener("click", () => {
+  window.location.href = "../../pages/1-roles.html";
+});
+
 /*
 function manageRolesSelection(playerCount) {
   // Mandatory roles for any number of players
