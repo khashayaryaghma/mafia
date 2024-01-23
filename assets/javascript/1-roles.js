@@ -1,9 +1,8 @@
+import { createElement, selectedElement } from "../../utils/domUtils.js";
 import {
-  createElement,
   getFromLocalStorage,
   saveToLocalStorage,
-  selectedElement,
-} from "./script.js";
+} from "../../utils/storageUtils.js";
 
 const citizenRolesData = [
   "Doctor",
@@ -27,7 +26,6 @@ const citizenRolesData = [
   "Citizen",
   "Citizen",
 ];
-
 const mafiaRolesData = [
   "Godfather",
   "Dr. Lecter",
@@ -41,9 +39,55 @@ const mafiaRolesData = [
   "Mafia",
   "Mafia",
 ];
-
 const additionalRolesData = ["Killer", "Joker"];
+const allRoles = [];
+const playersData = [];
+const selectedRoles = {
+  citizen: [],
+  mafia: [],
+  additional: [],
+};
+if (getFromLocalStorage("players")) {
+  playersData.push(...JSON.parse(getFromLocalStorage("players")));
+}
+citizenRolesData.forEach((role) => {
+  allRoles.push({ citizen: role });
+});
+mafiaRolesData.forEach((role) => {
+  allRoles.push({ mafia: role });
+});
+additionalRolesData.forEach((role) => {
+  allRoles.push({ additional: role });
+});
 
+const handleBtnRole = (e) => {
+  if (e.target.classList.contains("btn-outline-light")) {
+    e.target.classList.replace("btn-outline-light", "btn-light");
+    selectedRoles.citizen.push(e.target.textContent);
+  } else if (e.target.classList.contains("btn-outline-danger")) {
+    e.target.classList.replace("btn-outline-danger", "btn-danger");
+    selectedRoles.citizen.push(e.target.textContent);
+  } else {
+    e.target.classList.replace("btn-outline-warning", "btn-warning");
+    selectedRoles.citizen.push(e.target.textContent);
+  }
+};
+const gameRoles = selectedElement(".game-roles");
+allRoles.forEach((role) => {
+  const content = Object.values(role);
+  let className = "";
+  if (Object.keys(role).join() === "citizen") {
+    className = "btn-outline-light";
+  } else if (Object.keys(role).join() === "mafia") {
+    className = "btn-outline-danger";
+  } else {
+    className = "btn-outline-warning";
+  }
+  const roleBtn = createElement("button", ...content, ["btn", className]);
+  roleBtn.addEventListener("click", handleBtnRole);
+  gameRoles.append(roleBtn);
+});
+/*
 function manageRolesSelection(playerCount) {
   // Mandatory roles for any number of players
   const mandatoryRoles = ["Godfather", "Citizen"];
@@ -73,7 +117,7 @@ function manageRolesSelection(playerCount) {
   // Return available roles for admin selection
   return availableRoles;
 }
-
 // Example usage
-const chosenRoles = manageRolesSelection(20);
+const chosenRoles = manageRolesSelection(10);
 console.log(chosenRoles); // { mafia: [...], citizen: [...], additional: [...] }
+*/
