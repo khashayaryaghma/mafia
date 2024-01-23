@@ -1,22 +1,8 @@
-const createElement = (name, content, classes) => {
-  const element = document.createElement(name);
-  element.classList.add(...classes);
-  element.append(content);
-  return element;
-};
-
-const selectedElement = (query) => {
-  const element = document.querySelector(query);
-  return element;
-};
-
-const saveToLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
-
-const getFromLocalStorage = (key) => {
-  return localStorage.getItem(key);
-};
+import { createElement, selectedElement } from "../../utils/domUtils.js";
+import {
+  saveToLocalStorage,
+  getFromLocalStorage,
+} from "../../utils/storageUtils.js";
 
 const handleDeleteBtn = (e) => {
   const li = e.target.parentElement.parentElement;
@@ -26,9 +12,18 @@ const handleDeleteBtn = (e) => {
   li.remove();
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
+  if (playersData.length < 33) {
+    addPlayerBtn.disabled = false;
+    inputForm.disabled = false;
+  }
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
 };
 
 const handleEditBtn = (e) => {
+  addPlayerBtn.disabled = false;
+  inputForm.disabled = false;
   const li = e.target.parentElement.parentElement;
   const index = li.id;
   const player = playersData[index];
@@ -36,6 +31,9 @@ const handleEditBtn = (e) => {
   playersData.splice(index, 1);
   saveToLocalStorage("players", playersData);
   li.remove();
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
 };
 
 const createListOfPlayers = (data, appendElement) => {
@@ -53,11 +51,20 @@ const createListOfPlayers = (data, appendElement) => {
       "justify-content-between",
       "bg-secondary",
       "text-white",
-      "bg-gradient"
+      "bg-gradient",
     ]);
-    const deleteBtn = createElement("button", "X", ["delete-btn", "btn", "btn-danger"]);
+    const deleteBtn = createElement("button", "X", [
+      "delete-btn",
+      "btn",
+      "btn-danger",
+    ]);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    const editBtn = createElement("button", "Edit", ["edit-btn", "btn", "btn-warning", "m-1"]);
+    const editBtn = createElement("button", "Edit", [
+      "edit-btn",
+      "btn",
+      "btn-warning",
+      "m-1",
+    ]);
     editBtn.addEventListener("click", handleEditBtn);
     li.id = index;
     const div = createElement("div", "", []);
@@ -75,11 +82,14 @@ const nextBtn = selectedElement(".next-btn");
 
 const playersData = [];
 if (getFromLocalStorage("players")) {
-  playersData.push(...JSON.parse(getFromLocalStorage("players")));
+  playersData.push(...getFromLocalStorage("players"));
   createListOfPlayers(playersData, listOfPlayers);
-  if (playersData.length > 31) {
+  if (playersData.length > 32) {
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
+  }
+  if (playersData.length >= 10) {
+    nextBtn.disabled = false;
   }
 }
 
@@ -88,8 +98,10 @@ gameForm.addEventListener("submit", (e) => {
 });
 
 addPlayerBtn.addEventListener("click", () => {
-  if (playersData.length > 31) {
-    alert(`Cannot add ${inputForm.value} you have reached the maximum number of players`);
+  if (playersData.length > 32) {
+    alert(
+      `Cannot add "${inputForm.value}" you have reached the maximum number of players`
+    );
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
     inputForm.value = "";
@@ -98,6 +110,7 @@ addPlayerBtn.addEventListener("click", () => {
     saveToLocalStorage("players", playersData);
     inputForm.value = "";
     if (playersData.length >= 10) {
+      nextBtn.disabled = false;
     }
   } else {
     alert("Please enter a player name");
@@ -105,4 +118,8 @@ addPlayerBtn.addEventListener("click", () => {
 
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
+});
+
+nextBtn.addEventListener("click", () => {
+  window.location.href = "../../pages/1-roles.html";
 });
