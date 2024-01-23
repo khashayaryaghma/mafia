@@ -82,7 +82,7 @@ const nextBtn = selectedElement(".next-btn");
 
 const playersData = [];
 if (getFromLocalStorage("players")) {
-  playersData.push(...JSON.parse(getFromLocalStorage("players")));
+  playersData.push(...getFromLocalStorage("players"));
   createListOfPlayers(playersData, listOfPlayers);
   if (playersData.length > 32) {
     addPlayerBtn.disabled = true;
