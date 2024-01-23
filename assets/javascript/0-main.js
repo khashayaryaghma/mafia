@@ -1,22 +1,8 @@
-const createElement = (name, content, classes) => {
-  const element = document.createElement(name);
-  element.classList.add(...classes);
-  element.append(content);
-  return element;
-};
-
-const selectedElement = (query) => {
-  const element = document.querySelector(query);
-  return element;
-};
-
-const saveToLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
-
-const getFromLocalStorage = (key) => {
-  return localStorage.getItem(key);
-};
+import { createElement, selectedElement } from "../../utils/domUtils.js";
+import {
+  saveToLocalStorage,
+  getFromLocalStorage,
+} from "../../utils/storageUtils.js";
 
 const handleDeleteBtn = (e) => {
   const li = e.target.parentElement.parentElement;
@@ -26,7 +12,7 @@ const handleDeleteBtn = (e) => {
   li.remove();
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
-  if (playersData.length < 32) {
+  if (playersData.length < 33) {
     addPlayerBtn.disabled = false;
     inputForm.disabled = false;
   }
@@ -98,7 +84,7 @@ const playersData = [];
 if (getFromLocalStorage("players")) {
   playersData.push(...JSON.parse(getFromLocalStorage("players")));
   createListOfPlayers(playersData, listOfPlayers);
-  if (playersData.length > 31) {
+  if (playersData.length > 32) {
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
   }
@@ -112,7 +98,7 @@ gameForm.addEventListener("submit", (e) => {
 });
 
 addPlayerBtn.addEventListener("click", () => {
-  if (playersData.length > 31) {
+  if (playersData.length > 32) {
     alert(
       `Cannot add "${inputForm.value}" you have reached the maximum number of players`
     );
@@ -135,12 +121,5 @@ addPlayerBtn.addEventListener("click", () => {
 });
 
 nextBtn.addEventListener("click", () => {
-  window.location.href = "./1-roles.html";
+  window.location.href = "../../pages/1-roles.html";
 });
-
-export {
-  createElement,
-  selectedElement,
-  saveToLocalStorage,
-  getFromLocalStorage,
-};
