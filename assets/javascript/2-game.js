@@ -1,5 +1,5 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
-import { getFromLocalStorage, saveToLocalStorage } from "../../utils/storageUtils.js";
+import { getFromLocalStorage } from "../../utils/storageUtils.js";
 
 //timer
 const timer = selectedElement(".timer");
@@ -29,12 +29,20 @@ startBtn.addEventListener("click", () => {
   }, 1000);
 });
 
+// assign roles to players
+const roles = getFromLocalStorage("roles");
+const players = getFromLocalStorage("players");
+const all = [];
+players.map((el, i) => {
+  all.push({ player: el, role: roles[i] });
+});
+
 //list
 
 const cardContainer = selectedElement(".cards-container");
-getFromLocalStorage("players").map((el) => {
+all.map((el) => {
   // name
-  const name = createElement("h3", el, ["h5"]);
+  const name = createElement("h3", el.player + ":" + el.role, ["h5"]);
   const card = createElement("div", name, [
     "d-flex",
     "justify-content-between",
@@ -62,7 +70,7 @@ getFromLocalStorage("players").map((el) => {
     }
   });
   votes.append(minusBtn, vote, plusBtn);
-  
+
   // delete button
   const deleteBtn = createElement("button", "X", ["delete-btn", "btn", "btn-danger", "mx-3"]);
   deleteBtn.addEventListener("click", () => {
