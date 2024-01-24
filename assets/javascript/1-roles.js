@@ -139,7 +139,7 @@ allRoles.forEach((role) => {
 });
 
 nextBtn.addEventListener("click", () => {
-  window.location.href = "../../pages/1-roles.html";
+  window.location.href = "../../pages/2-game.html";
 });
 
 /*
