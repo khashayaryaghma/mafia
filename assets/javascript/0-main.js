@@ -95,9 +95,7 @@ if (getFromLocalStorage("players")) {
 
 gameForm.addEventListener("submit", (e) => {
   e.preventDefault();
-});
 
-addPlayerBtn.addEventListener("click", () => {
   if (playersData.length > 32) {
     alert(
       `Cannot add "${inputForm.value}" you have reached the maximum number of players`
@@ -119,6 +117,29 @@ addPlayerBtn.addEventListener("click", () => {
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
 });
+
+// addPlayerBtn.addEventListener("click", () => {
+  // if (playersData.length > 32) {
+  //   alert(
+  //     `Cannot add "${inputForm.value}" you have reached the maximum number of players`
+  //   );
+  //   addPlayerBtn.disabled = true;
+  //   inputForm.disabled = true;
+  //   inputForm.value = "";
+  // } else if (inputForm.value) {
+  //   playersData.push(inputForm.value.trim());
+  //   saveToLocalStorage("players", playersData);
+  //   inputForm.value = "";
+  //   if (playersData.length >= 10) {
+  //     nextBtn.disabled = false;
+  //   }
+  // } else {
+  //   alert("Please enter a player name");
+  // }
+
+  // listOfPlayers.innerText = "";
+  // createListOfPlayers(playersData, listOfPlayers);
+// });
 
 nextBtn.addEventListener("click", () => {
   window.location.href = "../../pages/1-roles.html";
