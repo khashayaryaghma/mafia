@@ -1,5 +1,5 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
-import { getFromLocalStorage } from "../../utils/storageUtils.js";
+import { getFromLocalStorage, saveToLocalStorage } from "../../utils/storageUtils.js";
 
 //timer
 const timer = selectedElement(".timer");
@@ -79,6 +79,15 @@ all.map((el) => {
   });
   const rightContainer = createElement("div", votes, ["d-flex", "align-items-center"]);
   rightContainer.append(deleteBtn);
-  card.append(role,rightContainer);
+  card.append(role, rightContainer);
   cardContainer.append(card);
+});
+
+//reset game
+const restartBtn = selectedElement(".restart");
+
+restartBtn.addEventListener("click", () => {
+  localStorage.removeItem("roles")
+  localStorage.removeItem("players")
+  window.location.href = "../../index.html";
 });
