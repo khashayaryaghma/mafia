@@ -30,8 +30,8 @@ startBtn.addEventListener("click", () => {
 });
 
 // assign roles to players
-const roles = getFromLocalStorage("roles");
-const players = getFromLocalStorage("players");
+const roles = getFromLocalStorage("roles").sort(() => 0.5 - Math.random());
+const players = getFromLocalStorage("players").sort(() => 0.5 - Math.random());
 const all = [];
 players.map((el, i) => {
   all.push({ player: el, role: roles[i] });
