@@ -42,7 +42,8 @@ players.map((el, i) => {
 const cardContainer = selectedElement(".cards-container");
 all.map((el) => {
   // name
-  const name = createElement("h3", el.player + ":" + el.role, ["h5"]);
+  const name = createElement("h3", el.player, ["h5"]);
+  const role = createElement("p", el.role, ["h5"]);
   const card = createElement("div", name, [
     "d-flex",
     "justify-content-between",
@@ -78,6 +79,6 @@ all.map((el) => {
   });
   const rightContainer = createElement("div", votes, ["d-flex", "align-items-center"]);
   rightContainer.append(deleteBtn);
-  card.append(rightContainer);
+  card.append(role,rightContainer);
   cardContainer.append(card);
 });
