@@ -4,37 +4,13 @@ import {
   getFromLocalStorage,
 } from "../../utils/storageUtils.js";
 
-const handleDeleteBtn = (e) => {
-  const li = e.target.parentElement.parentElement;
-  const index = li.id;
-  playersData.splice(index, 1);
-  saveToLocalStorage("players", playersData);
-  li.remove();
-  listOfPlayers.innerText = "";
-  createListOfPlayers(playersData, listOfPlayers);
-  if (playersData.length < 33) {
-    addPlayerBtn.disabled = false;
-    inputForm.disabled = false;
-  }
-  if (playersData.length < 10) {
-    nextBtn.disabled = true;
-  }
-};
+const gameForm = selectedElement(".game-form");
+const inputForm = selectedElement(".input-form");
+const addPlayerBtn = selectedElement(".add-player-btn");
+const listOfPlayers = selectedElement(".list-of-players");
+const nextBtn = selectedElement(".next-btn");
 
-const handleEditBtn = (e) => {
-  addPlayerBtn.disabled = false;
-  inputForm.disabled = false;
-  const li = e.target.parentElement.parentElement;
-  const index = li.id;
-  const player = playersData[index];
-  inputForm.value = player;
-  playersData.splice(index, 1);
-  saveToLocalStorage("players", playersData);
-  li.remove();
-  if (playersData.length < 10) {
-    nextBtn.disabled = true;
-  }
-};
+const playersData = [];
 
 const createListOfPlayers = (data, appendElement) => {
   data.forEach((player, index) => {
@@ -74,13 +50,43 @@ const createListOfPlayers = (data, appendElement) => {
   });
 };
 
-const gameForm = selectedElement(".game-form");
-const inputForm = selectedElement(".input-form");
-const addPlayerBtn = selectedElement(".add-player-btn");
-const listOfPlayers = selectedElement(".list-of-players");
-const nextBtn = selectedElement(".next-btn");
+const handleDeleteBtn = (e) => {
+  const li = e.target.parentElement.parentElement;
+  const index = li.id;
+  playersData.splice(index, 1);
+  saveToLocalStorage("players", playersData);
+  li.remove();
+  listOfPlayers.innerText = "";
+  createListOfPlayers(playersData, listOfPlayers);
+  if (playersData.length < 33) {
+    addPlayerBtn.disabled = false;
+    inputForm.disabled = false;
+  }
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
+};
 
-const playersData = [];
+const handleEditBtn = (e) => {
+  addPlayerBtn.disabled = false;
+  inputForm.disabled = false;
+  const li = e.target.parentElement.parentElement;
+  const index = li.id;
+  const player = playersData[index];
+  inputForm.value = player;
+  playersData.splice(index, 1);
+  saveToLocalStorage("players", playersData);
+  li.remove();
+  if (playersData.length < 10) {
+    nextBtn.disabled = true;
+  }
+};
+
+
+
+
+
+
 if (getFromLocalStorage("players")) {
   playersData.push(...getFromLocalStorage("players"));
   createListOfPlayers(playersData, listOfPlayers);
@@ -95,7 +101,6 @@ if (getFromLocalStorage("players")) {
 
 gameForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
   if (playersData.length > 32) {
     alert(
       `Cannot add "${inputForm.value}" you have reached the maximum number of players`
@@ -116,6 +121,10 @@ gameForm.addEventListener("submit", (e) => {
 
   listOfPlayers.innerText = "";
   createListOfPlayers(playersData, listOfPlayers);
+});
+
+nextBtn.addEventListener("click", () => {
+  window.location.href = "../../pages/1-roles.html";
 });
 
 // addPlayerBtn.addEventListener("click", () => {
@@ -141,6 +150,4 @@ gameForm.addEventListener("submit", (e) => {
   // createListOfPlayers(playersData, listOfPlayers);
 // });
 
-nextBtn.addEventListener("click", () => {
-  window.location.href = "../../pages/1-roles.html";
-});
+
