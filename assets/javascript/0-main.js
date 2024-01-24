@@ -1,8 +1,5 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
-import {
-  saveToLocalStorage,
-  getFromLocalStorage,
-} from "../../utils/storageUtils.js";
+import { saveToLocalStorage, getFromLocalStorage } from "../../utils/storageUtils.js";
 
 const gameForm = selectedElement(".game-form");
 const inputForm = selectedElement(".input-form");
@@ -29,18 +26,9 @@ const createListOfPlayers = (data, appendElement) => {
       "text-white",
       "bg-gradient",
     ]);
-    const deleteBtn = createElement("button", "X", [
-      "delete-btn",
-      "btn",
-      "btn-danger",
-    ]);
+    const deleteBtn = createElement("button", "X", ["delete-btn", "btn", "btn-danger"]);
     deleteBtn.addEventListener("click", handleDeleteBtn);
-    const editBtn = createElement("button", "Edit", [
-      "edit-btn",
-      "btn",
-      "btn-warning",
-      "m-1",
-    ]);
+    const editBtn = createElement("button", "Edit", ["edit-btn", "btn", "btn-warning", "m-1"]);
     editBtn.addEventListener("click", handleEditBtn);
     li.id = index;
     const div = createElement("div", "", []);
@@ -82,11 +70,6 @@ const handleEditBtn = (e) => {
   }
 };
 
-
-
-
-
-
 if (getFromLocalStorage("players")) {
   playersData.push(...getFromLocalStorage("players"));
   createListOfPlayers(playersData, listOfPlayers);
@@ -102,9 +85,7 @@ if (getFromLocalStorage("players")) {
 gameForm.addEventListener("submit", (e) => {
   e.preventDefault();
   if (playersData.length > 32) {
-    alert(
-      `Cannot add "${inputForm.value}" you have reached the maximum number of players`
-    );
+    alert(`Cannot add "${inputForm.value}" you have reached the maximum number of players`);
     addPlayerBtn.disabled = true;
     inputForm.disabled = true;
     inputForm.value = "";
@@ -126,28 +107,3 @@ gameForm.addEventListener("submit", (e) => {
 nextBtn.addEventListener("click", () => {
   window.location.href = "../../pages/1-roles.html";
 });
-
-// addPlayerBtn.addEventListener("click", () => {
-  // if (playersData.length > 32) {
-  //   alert(
-  //     `Cannot add "${inputForm.value}" you have reached the maximum number of players`
-  //   );
-  //   addPlayerBtn.disabled = true;
-  //   inputForm.disabled = true;
-  //   inputForm.value = "";
-  // } else if (inputForm.value) {
-  //   playersData.push(inputForm.value.trim());
-  //   saveToLocalStorage("players", playersData);
-  //   inputForm.value = "";
-  //   if (playersData.length >= 10) {
-  //     nextBtn.disabled = false;
-  //   }
-  // } else {
-  //   alert("Please enter a player name");
-  // }
-
-  // listOfPlayers.innerText = "";
-  // createListOfPlayers(playersData, listOfPlayers);
-// });
-
-
