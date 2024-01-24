@@ -6,7 +6,7 @@ const timer = selectedElement(".timer");
 const startBtn = selectedElement(".btn-start");
 const pauseBtn = selectedElement(".btn-pause");
 const resetBtn = selectedElement(".btn-reset");
-const totalTime = 120;
+const totalTime = 60;
 let time = totalTime;
 timer.innerText = time;
 
