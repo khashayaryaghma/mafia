@@ -1,5 +1,7 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
+import { getFromLocalStorage, saveToLocalStorage } from "../../utils/storageUtils.js";
 
+//timer
 const timer = selectedElement(".timer");
 const startBtn = selectedElement(".btn-start");
 const pauseBtn = selectedElement(".btn-pause");
@@ -25,4 +27,49 @@ startBtn.addEventListener("click", () => {
       timer.innerText = totalTime;
     });
   }, 1000);
+});
+
+//list
+
+const cardContainer = selectedElement(".cards-container");
+getFromLocalStorage("players").map((el) => {
+  // name
+  const name = createElement("h3", el, ["h5"]);
+  const card = createElement("div", name, [
+    "d-flex",
+    "justify-content-between",
+    "align-items-center",
+    "border",
+    "rounded",
+    "text-white",
+    "w-100",
+    "p-4",
+    "m-2",
+  ]);
+
+  // votes
+  const votes = createElement("div", "", ["d-flex", "align-items-center", "m-2", "h6"]);
+  const plusBtn = createElement("button", "+", ["btn", "btn-warning", "mx-3"]);
+  const minusBtn = createElement("button", "-", ["btn", "btn-warning", "mx-3"]);
+  let score = 0;
+  let vote = createElement("span", score, []);
+  plusBtn.addEventListener("click", () => {
+    vote.innerText = ++score;
+  });
+  minusBtn.addEventListener("click", () => {
+    if (score !== 0) {
+      vote.innerText = --score;
+    }
+  });
+  votes.append(minusBtn, vote, plusBtn);
+  
+  // delete button
+  const deleteBtn = createElement("button", "X", ["delete-btn", "btn", "btn-danger", "mx-3"]);
+  deleteBtn.addEventListener("click", () => {
+    card.classList.toggle("deleted-user");
+  });
+  const rightContainer = createElement("div", votes, ["d-flex", "align-items-center"]);
+  rightContainer.append(deleteBtn);
+  card.append(rightContainer);
+  cardContainer.append(card);
 });

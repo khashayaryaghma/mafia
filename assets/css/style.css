@@ -13,5 +13,10 @@ body {
   height: 14rem;
   padding: 1rem 2rem;
   margin-top: 2rem;
-  background: linear-gradient(to right, #506275, #2f3233);;
+  background: linear-gradient(to right, #506275, #2f3233);
+}
+.deleted-user {
+  text-decoration: line-through 3px;
+  opacity: 0.4;
+  background-color: gray;
 }
