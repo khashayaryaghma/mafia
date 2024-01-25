@@ -87,7 +87,8 @@ all.map((el) => {
 const restartBtn = selectedElement(".restart");
 
 restartBtn.addEventListener("click", () => {
-  localStorage.removeItem("roles")
-  localStorage.removeItem("players")
+  // localStorage.removeItem("roles")
+  // localStorage.removeItem("players")
+  localStorage.clear()
   window.location.href = "../../index.html";
 });
