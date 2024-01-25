@@ -1,5 +1,5 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
-import { getFromLocalStorage, saveToLocalStorage } from "../../utils/storageUtils.js";
+import { getFromLocalStorage } from "../../utils/storageUtils.js";
 
 //timer
 const timer = selectedElement(".timer");
