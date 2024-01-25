@@ -9,6 +9,30 @@ const nextBtn = selectedElement(".next-btn");
 
 const playersData = [];
 
+
+gameForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (playersData.length > 32) {
+    alert(`Cannot add "${inputForm.value}" you have reached the maximum number of players`);
+    addPlayerBtn.disabled = true;
+    inputForm.disabled = true;
+    inputForm.value = "";
+  } else if (inputForm.value) {
+    playersData.push(inputForm.value.trim());
+    saveToLocalStorage("players", playersData);
+    inputForm.value = "";
+    if (playersData.length >= 10) {
+      nextBtn.disabled = false;
+    }
+  } else {
+    alert("Please enter a player name");
+  }
+
+  listOfPlayers.innerText = "";
+  createListOfPlayers(playersData, listOfPlayers);
+});
+
+
 const createListOfPlayers = (data, appendElement) => {
   data.forEach((player, index) => {
     const li = createElement("li", player, [
@@ -81,28 +105,6 @@ if (getFromLocalStorage("players")) {
     nextBtn.disabled = false;
   }
 }
-
-gameForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  if (playersData.length > 32) {
-    alert(`Cannot add "${inputForm.value}" you have reached the maximum number of players`);
-    addPlayerBtn.disabled = true;
-    inputForm.disabled = true;
-    inputForm.value = "";
-  } else if (inputForm.value) {
-    playersData.push(inputForm.value.trim());
-    saveToLocalStorage("players", playersData);
-    inputForm.value = "";
-    if (playersData.length >= 10) {
-      nextBtn.disabled = false;
-    }
-  } else {
-    alert("Please enter a player name");
-  }
-
-  listOfPlayers.innerText = "";
-  createListOfPlayers(playersData, listOfPlayers);
-});
 
 nextBtn.addEventListener("click", () => {
   window.location.href = "../../pages/1-roles.html";
