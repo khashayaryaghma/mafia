@@ -1,61 +1,53 @@
 import { createElement, selectedElement } from "../../utils/domUtils.js";
 import { getFromLocalStorage, saveToLocalStorage } from "../../utils/storageUtils.js";
 
-const citizenRolesData = [
-  "Doctor",
-  "Detective",
-  "Sniper",
-  "Rifleman",
-  "Roeen tan",
-  "Rad gir",
-  "Anti Lady",
-  "Judge",
-  "Bartender",
-  "Gambler",
-  "Viewer",
-  "Cowboy",
-  "Mason",
-  "Tyler",
-  "Priest",
-  "Bodyguard",
-  "Citizen",
-  "Citizen",
-  "Citizen",
-  "Citizen",
-];
-const mafiaRolesData = ["Godfather", "Dr. Lecter", "Terrorist", "Vandal", "Spy", "Lawyer", "Lady Voodoo", "Ninja", "Natasha", "Mafia", "Mafia"];
-const additionalRolesData = ["Killer", "Joker"];
-
 // collect playerData
 const playersData = [];
 if (getFromLocalStorage("players")) {
   playersData.push(...getFromLocalStorage("players"));
 }
 //collect all roles in a variable
-const allRoles = [];
-citizenRolesData.forEach((role) => {
-  allRoles.push({ citizen: role });
-});
-mafiaRolesData.forEach((role) => {
-  allRoles.push({ mafia: role });
-});
-additionalRolesData.forEach((role) => {
-  allRoles.push({ additional: role });
-});
+const allRoles = {
+  citizen: [
+    "Doctor",
+    "Detective",
+    "Sniper",
+    "Rifleman",
+    "Roeen tan",
+    "Rad gir",
+    "Anti Lady",
+    "Judge",
+    "Bartender",
+    "Gambler",
+    "Viewer",
+    "Cowboy",
+    "Mason",
+    "Tyler",
+    "Priest",
+    "Bodyguard",
+    "Citizen",
+    "Citizen",
+    "Citizen",
+    "Citizen",
+  ],
+  mafia: ["Godfather", "Dr. Lecter", "Terrorist", "Vandal", "Spy", "Lawyer", "Lady Voodoo", "Ninja", "Natasha", "Mafia", "Mafia"],
+  additional: ["Killer", "Joker"],
+};
 //show all roles in pages
 const gameRoles = selectedElement(".game-roles");
 
-allRoles.forEach((role) => {
-  const content = Object.values(role);
-  let className = "";
-  if (Object.keys(role).join() === "citizen") {
-    className = "btn-outline-light";
-  } else if (Object.keys(role).join() === "mafia") {
-    className = "btn-outline-danger";
-  } else {
-    className = "btn-outline-warning";
-  }
-  const roleBtn = createElement("button", ...content, ["btn", "m-1", className]);
+allRoles.citizen.forEach((el) => {
+  const roleBtn = createElement("button", el, ["btn", "m-1", "btn-outline-light"]);
+  roleBtn.addEventListener("click", handleBtnRole);
+  gameRoles.append(roleBtn);
+});
+allRoles.mafia.forEach((el) => {
+  const roleBtn = createElement("button", el, ["btn", "m-1", "btn-outline-danger"]);
+  roleBtn.addEventListener("click", handleBtnRole);
+  gameRoles.append(roleBtn);
+});
+allRoles.additional.forEach((el) => {
+  const roleBtn = createElement("button", el, ["btn", "m-1", "btn-outline-warning"]);
   roleBtn.addEventListener("click", handleBtnRole);
   gameRoles.append(roleBtn);
 });
